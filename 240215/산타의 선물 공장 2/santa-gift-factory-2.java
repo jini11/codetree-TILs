@@ -79,7 +79,10 @@ public class Main {
         int b = 0;
         int size = belt[bIdx].size() - 1;
         int giftIdx = belt[bIdx].indexOf(num);
-        if (giftIdx == 0) {
+        if (belt[bIdx].size() == 1) {
+            a = -1;
+            b = -1;
+        } else if (giftIdx == 0) {
             a = -1;
             b = belt[bIdx].get(giftIdx + 1);
         } else if (giftIdx == size) {
@@ -105,6 +108,9 @@ public class Main {
     }
 
     private static int change(int from, int to) {
+        if (belt[from].isEmpty() && belt[to].isEmpty()) {
+            return belt[to].size();
+        }
         if (belt[from].isEmpty()) {
             int toGift = belt[to].pollFirst();
             belt[from].add(toGift);
