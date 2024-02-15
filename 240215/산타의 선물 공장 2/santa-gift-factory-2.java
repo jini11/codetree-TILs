@@ -29,6 +29,7 @@ public class Main {
             belt[b].add(i + 1);
             gift[i + 1] = b;
         }
+        // printDeque();
 
         for (int i = 0; i < q - 1; i++) {
             st = new StringTokenizer(br.readLine());
@@ -70,6 +71,7 @@ public class Main {
         int a = belt[num].peekFirst();
         int b = belt[num].peekLast();
         int c = belt[num].size();
+        // System.out.println(num + "번 벨트 " + a + " " + b + " " + c);
         return a + (2 * b) + (3 * c);
     }
 
@@ -99,8 +101,9 @@ public class Main {
     private static int divide(int from, int to) {
         int floor = belt[from].size() / 2;
 
-        for (int i = 0; i < floor; i++) {
-            int fromGift = belt[from].pollFirst();
+        for (int i = floor - 1; i >= 0; i--) {
+            // int fromGift = belt[from].pollFirst();
+            int fromGift = belt[from].remove(i);
             belt[to].addFirst(fromGift);
             gift[fromGift] = to;
         }
