@@ -96,7 +96,7 @@ public class Main {
 
         int a = head[num] == 0 ? -1 : head[num];
         int b = tail[num] == 0 ? -1 : tail[num];
-
+        // System.out.println(a + " : " + b + " : " + cntGift[num]);
         return a + 2 * b + 3 * cntGift[num];
     }
 
@@ -176,9 +176,17 @@ public class Main {
             next[fromHead] = next[toHead];
             next[toHead] = temp;
 
+            // System.out.println("next[fromHead]: " + next[fromHead] + ", " + "next[toHead]: " + next[toHead]);
+
             head[from] = toHead;
             head[to] = fromHead;
 
+            if (next[fromHead] == 0) {
+                tail[to] = fromHead;
+            }
+            if (next[toHead] == 0) {
+                tail[from] = toHead;
+            }
        }
        return cntGift[to];
     }
