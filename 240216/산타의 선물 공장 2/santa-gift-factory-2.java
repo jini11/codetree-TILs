@@ -96,7 +96,6 @@ public class Main {
 
         int a = head[num] == 0 ? -1 : head[num];
         int b = tail[num] == 0 ? -1 : tail[num];
-        // System.out.println(a + " : " + b + " : " + cntGift[num]);
         return a + 2 * b + 3 * cntGift[num];
     }
 
@@ -107,88 +106,88 @@ public class Main {
     }
 
     private static int divide(int from, int to) {
-        if (cntGift[from] < 2) {
-            return cntGift[to];
-        }
-       int floor = cntGift[from] / 2;
-       int fromHead = head[from];
-       int fromTail = head[from];
-       int cur = head[from];
-       for (int i = 0; i < floor - 1; i++) {
-            fromTail = next[cur];
-            cur = next[cur];
-       }
-        int toHead = head[to];
-        prev[next[fromTail]] = 0;
-        head[from] = next[fromTail];
-        prev[toHead] = fromTail;
-        next[fromTail] = toHead;
-        head[to] = fromHead;
+    //     if (cntGift[from] < 2) {
+    //         return cntGift[to];
+    //     }
+    //    int floor = cntGift[from] / 2;
+    //    int fromHead = head[from];
+    //    int fromTail = head[from];
+    //    int cur = head[from];
+    //    for (int i = 0; i < floor - 1; i++) {
+    //         fromTail = next[cur];
+    //         cur = next[cur];
+    //    }
+    //     int toHead = head[to];
+    //     prev[next[fromTail]] = 0;
+    //     head[from] = next[fromTail];
+    //     prev[toHead] = fromTail;
+    //     next[fromTail] = toHead;
+    //     head[to] = fromHead;
 
-       cntGift[to] += floor;
-       cntGift[from] -= floor;
+    //    cntGift[to] += floor;
+    //    cntGift[from] -= floor;
 
-        if (cntGift[to] == floor) {
-            tail[to] = fromTail;
+    //     if (cntGift[to] == floor) {
+    //         tail[to] = fromTail;
+    //     }
+
+        int cnt = cntGift[from];
+        List<Integer> boxId = new ArrayList<>();
+        for (int i = 0; i < cnt / 2; i++) {
+            boxId.add(removeHead(from));
         }
+
+        for (int i = boxId.size() - 1; i >= 0; i--) {
+            pushHead(to, boxId.get(i));
+        }
+
         return cntGift[to];
     }
 
     private static int change(int from, int to) {
-       if (cntGift[from] == 0 && cntGift[to] == 0) {
-            return 0;
-       }
-       if (cntGift[from] == 0) {
-            int toHead = head[to];
-
-            head[from] = toHead;
-
-            head[to] = next[head[from]];
-
-            prev[head[to]] = 0;
-            next[head[from]] = 0;
-            tail[from] = head[from];
-
-            cntGift[from] = 1;
-            cntGift[to] -= 1;
-       } else if (cntGift[to] == 0) {
-            int fromHead = head[from];
-
-            head[to] = fromHead;
-
-            head[from] = next[head[to]];
-            next[fromHead] = 0;
-
-            prev[head[from]] = 0;
-            next[head[to]] = 0;
-            tail[to] = head[to];
-
-            cntGift[to] = 1;
-            cntGift[from] -= 1;
-       } else {
-            int fromHead = head[from];
-            int toHead = head[to];
-
-            prev[next[fromHead]] = toHead;
-            prev[next[toHead]] = fromHead;
-
-            int temp = next[fromHead];
-            next[fromHead] = next[toHead];
-            next[toHead] = temp;
-
-            // System.out.println("next[fromHead]: " + next[fromHead] + ", " + "next[toHead]: " + next[toHead]);
-
-            head[from] = toHead;
-            head[to] = fromHead;
-
-            if (next[fromHead] == 0) {
-                tail[to] = fromHead;
-            }
-            if (next[toHead] == 0) {
-                tail[from] = toHead;
-            }
-       }
+        int fromHead = removeHead(from);
+        int toHead = removeHead(to);
+        pushHead(to, fromHead);
+        pushHead(from, toHead);
        return cntGift[to];
+    }
+
+    private static int removeHead(int num) {
+        if (cntGift[num] == 0) {
+            return 0;
+        }
+
+        if (cntGift[num] == 1) {
+            int id = head[num];
+            head[num] = tail[num] = 0;
+            cntGift[num] = 0;
+            return id;
+        }
+
+        int hid = head[num];
+        int nextHead = next[hid];
+        next[hid] = prev[nextHead] = 0;
+        cntGift[num]--;
+        head[num] = nextHead;
+
+        return hid;
+    }
+
+    private static void pushHead(int num, int hid) {
+        if (hid == 0) {
+            return;
+        }
+
+        if (cntGift[num] == 0) {
+            head[num] = tail[num] = hid;
+            cntGift[num] = 1;
+        } else {
+            int beforeHead = head[num];
+            next[hid] = beforeHead;
+            prev[beforeHead] = hid;
+            head[num] = hid;
+            cntGift[num]++;
+        }
     }
     
     private static int moveAll(int from, int to) {
