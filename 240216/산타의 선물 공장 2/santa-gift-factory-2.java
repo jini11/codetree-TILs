@@ -29,7 +29,6 @@ public class Main {
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
         belt = new LinkedList[n];
-        // gift = new int[m + 1];
         for (int i = 0; i < n; i++) {
             belt[i] = new LinkedList<>();
         }
@@ -84,10 +83,8 @@ public class Main {
                     sb.append(getBeltInfo(num)).append("\n");
                     break;
             }
-            // if (i < 5) {
             // System.out.println(command + " 명령어일 때");
             // printDeque();
-            // }
         }
         System.out.println(sb.toString());
     }
@@ -131,6 +128,9 @@ public class Main {
        cntGift[to] += floor;
        cntGift[from] -= floor;
 
+        if (cntGift[to] == floor) {
+            tail[to] = fromTail;
+        }
         return cntGift[to];
     }
 
