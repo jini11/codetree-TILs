@@ -7,7 +7,7 @@ public class Main {
     public static final int MAX_N = 100000;
 
     static int n, m;
-    static LinkedList<Integer>[] belt;
+    static ArrayList<Integer>[] belt;
     
     // 벨트
     public static int[] head = new int[MAX_N];
@@ -28,9 +28,9 @@ public class Main {
         st.nextToken();
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
-        belt = new LinkedList[n];
+        belt = new ArrayList[n];
         for (int i = 0; i < n; i++) {
-            belt[i] = new LinkedList<>();
+            belt[i] = new ArrayList<>();
         }
 
         for (int i = 0; i < m; i++) {
