@@ -7,7 +7,7 @@
 
 |기록분류|이름|티어|유형|상태|최근 제출 코드|
 |---|---|---|---|---|---|
-|기출문제|[산타의 선물 공장 2](https://www.codetree.ai/training-field/frequent-problems/problems/santa-gift-factory-2)|![Platinum5][p5]|`Doubly-LinkedList` `Simulation`|![Failed][failed]|[링크](https://github.com/jini11/codetree-TILs/blob/main/240215/%EC%82%B0%ED%83%80%EC%9D%98%20%EC%84%A0%EB%AC%BC%20%EA%B3%B5%EC%9E%A5%202/santa-gift-factory-2.java)|
+|기출문제|[산타의 선물 공장 2](https://www.codetree.ai/training-field/frequent-problems/problems/santa-gift-factory-2)|![Platinum5][p5]|`Doubly-LinkedList` `Simulation`|![Passed][passed]|[링크](https://github.com/jini11/codetree-TILs/blob/main/240215/%EC%82%B0%ED%83%80%EC%9D%98%20%EC%84%A0%EB%AC%BC%20%EA%B3%B5%EC%9E%A5%202/santa-gift-factory-2.java)|
 
 
 
