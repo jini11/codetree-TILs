@@ -21,7 +21,7 @@ public class Main {
             for (int i = 2; i < N + 1; i++) {
                 int start = (int) Math.pow(2, i - 1);
                 for (int j = start; j < M + 1; j++) {
-                    dp[i][j] = dp[i - 1][j - (int) Math.pow(2, i - 2)] + dp[i][j - (int) Math.pow(2, i - 1)];
+                    dp[i][j] = (dp[i - 1][j - (int) Math.pow(2, i - 2)] + dp[i][j - (int) Math.pow(2, i - 1)]) % 1000000007;
                 }
             }
         }
