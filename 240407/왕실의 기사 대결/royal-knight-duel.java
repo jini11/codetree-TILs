@@ -72,6 +72,8 @@ public class Main {
 			int num = Integer.parseInt(st.nextToken());
 			int dir = Integer.parseInt(st.nextToken());
 			
+            if (!person[num].alive) continue;
+            
 			remove = new HashSet<Integer>();
 			// 밀 수 있는지 확인
 				// 밀 수 있으면 연쇄 밀기
@@ -178,6 +180,10 @@ public class Main {
 //		print(map);
 		return true;
 	}
+	
+//	private static void move(int num, int dir) {
+//		
+//	}
 	
 	private static void print(int[][] map) {
 		for (int i = 1; i < map.length; i++) {
