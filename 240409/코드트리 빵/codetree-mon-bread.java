@@ -4,6 +4,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
@@ -109,9 +110,12 @@ public class Main {
 	}
 	
 	private static void startPerson(int num) {
+		PriorityQueue<State> pq = new PriorityQueue<>();
 		Queue<int[]> queue = new ArrayDeque<int[]>();
 		boolean[][] visited = new boolean[N + 1][N + 1];
-		queue.add(new int[] { store[num].r, store[num].c });
+		queue.add(new int[] { store[num].r, store[num].c, 0 });
+		
+		int minDis = Integer.MAX_VALUE;
 		
 		while (!queue.isEmpty()) {
 			int[] cur = queue.poll();
@@ -122,6 +126,13 @@ public class Main {
 				map[cur[0]][cur[1]] = 0;
 				go[cur[0]][cur[1]] = true;
 				return;
+//				if (minDis >= cur[2]) {
+//					minDis = cur[2];
+//					pq.add(new State(cur[0], cur[1], cur[2], true));
+//				}
+//				if (minDis < cur[2]) {
+//					break;
+//				}
 			}
 			
 			for (int i = 0; i < 4; i++) {
@@ -132,33 +143,72 @@ public class Main {
 				if (go[nr][nc] || visited[nr][nc]) continue;
 				
 				visited[nr][nc] = true;
-				queue.add(new int[] { nr, nc });
+				queue.add(new int[] { nr, nc, cur[2] + 1 });
 			}
 		}
+		
+//		State st = pq.poll();
+//		person[num].r = st.r;
+//		person[num].c = st.c;
+//		person[num].exist = true;
+//		map[st.r][st.c] = 0;
+//		go[st.r][st.c] = true;
 		
 	}
 	
 	private static void movePerson(int num) { // bfs?
-		int minDis = Integer.MAX_VALUE;
-		int minDir = 0;
-		
-		for (int i = 0; i < 4; i++) {
-			int nr = person[num].r + dr[i];
-			int nc = person[num].c + dc[i];
+		// 편의점에서 사람까지 가는 최단 거리
+		Queue<int[]> queue = new ArrayDeque<int[]>();
+		boolean[][] visited = new boolean[N + 1][N + 1];
+		queue.add(new int[] { store[num].r, store[num].c, store[num].r, store[num].c });
+//		visited[store[num].r][store[num].c] = true;
+//		System.out.println(num + "번 사람");
+		while (!queue.isEmpty()) {
+			int[] cur = queue.poll();
 			
-			if (nr < 1 || nc < 1 || nr > N || nc > N) continue;
-			
-			if (go[nr][nc]) continue;
-			
-			int distance = Math.abs(nr - store[num].r) + Math.abs(nc - store[num].c);
-			if (minDis > distance) {
-				minDis = distance;
-				minDir = i;
+			for (int i = 0; i < 4; i++) {
+				int nr = cur[0] + dr[i];
+				int nc = cur[1] + dc[i];
+				
+				if (nr < 1 || nc < 1 || nr > N || nc > N || visited[nr][nc]) continue;
+				if (nr == person[num].r && nc == person[num].c) {
+					person[num].r = cur[0];
+					person[num].c = cur[1];
+					return;
+				}
+				if (go[nr][nc]) continue;
+				
+				visited[nr][nc] = true;
+				queue.add(new int[] { nr, nc, cur[0], cur[1] });
 			}
 		}
-		
-		person[num].r += dr[minDir];
-		person[num].c += dc[minDir];
+//		int minDis = Integer.MAX_VALUE;
+//		int minDir = 0;
+//		
+//		for (int i = 0; i < 4; i++) {
+//			int nr = person[num].r + dr[i];
+//			int nc = person[num].c + dc[i];
+//			
+//			if (nr < 1 || nc < 1 || nr > N || nc > N) continue;
+//			if (nr == store[num].r && nc == store[num].c) {
+//				int distance = Math.abs(nr - store[num].r) + Math.abs(nc - store[num].c);
+//				if (minDis > distance) {
+//					minDis = distance;
+//					minDir = i;
+//				}
+//			}
+//			if (go[nr][nc]) continue;
+//			
+//			int distance = Math.abs(nr - store[num].r) + Math.abs(nc - store[num].c);
+//			if (minDis > distance) {
+//				minDis = distance;
+//				minDir = i;
+//			}
+//		}
+//		
+//		person[num].r += dr[minDir];
+//		person[num].c += dc[minDir];
 		
 	}
+
 }
