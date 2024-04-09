@@ -136,7 +136,7 @@ public class Main {
 				}
 			}
 			
-			for (int i = 3; i >= 0; i--) {
+			for (int i = 0; i < 4; i++) {
 				int nr = cur[0] + dr[i];
 				int nc = cur[1] + dc[i];
 				
@@ -169,7 +169,7 @@ public class Main {
 		while (!queue.isEmpty()) {
 			int[] cur = queue.poll();
 			
-			for (int i = 3; i >= 0; i--) {
+			for (int i = 0; i < 4; i++) {
 				int nr = cur[0] + dr[i];
 				int nc = cur[1] + dc[i];
 				
