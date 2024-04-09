@@ -36,7 +36,7 @@ public class Main {
 				if (this.r == o.r) {
 					return this.c - o.c;
 				}
-				return this.r - o.c;
+				return this.r - o.r;
 			}
 			return this.dis - o.dis;
 		}
@@ -116,26 +116,27 @@ public class Main {
 		queue.add(new int[] { store[num].r, store[num].c, 0 });
 		
 		int minDis = Integer.MAX_VALUE;
-		
+//		System.out.println(num + "번 편의점 위치: " + store[num].r + " " + store[num].c);
 		while (!queue.isEmpty()) {
 			int[] cur = queue.poll();
 			if (map[cur[0]][cur[1]] == 1) {
-				person[num].r = cur[0];
-				person[num].c = cur[1];
-				person[num].exist = true;
-				map[cur[0]][cur[1]] = 0;
-				go[cur[0]][cur[1]] = true;
-				return;
-//				if (minDis >= cur[2]) {
-//					minDis = cur[2];
-//					pq.add(new State(cur[0], cur[1], cur[2], true));
-//				}
-//				if (minDis < cur[2]) {
-//					break;
-//				}
+//				person[num].r = cur[0];
+//				person[num].c = cur[1];
+//				person[num].exist = true;
+//				map[cur[0]][cur[1]] = 0;
+//				go[cur[0]][cur[1]] = true;
+//				System.out.println(num+"번 시작 " + cur[0] + " " + cur[1]);
+//				return;
+				if (minDis >= cur[2]) {
+					minDis = cur[2];
+					pq.add(new State(cur[0], cur[1], cur[2], true));
+				}
+				if (minDis < cur[2]) {
+					break;
+				}
 			}
 			
-			for (int i = 0; i < 4; i++) {
+			for (int i = 3; i >= 0; i--) {
 				int nr = cur[0] + dr[i];
 				int nc = cur[1] + dc[i];
 				
@@ -146,13 +147,15 @@ public class Main {
 				queue.add(new int[] { nr, nc, cur[2] + 1 });
 			}
 		}
-		
-//		State st = pq.poll();
-//		person[num].r = st.r;
-//		person[num].c = st.c;
-//		person[num].exist = true;
-//		map[st.r][st.c] = 0;
-//		go[st.r][st.c] = true;
+//		System.out.println("size: " + pq.size());
+		State st = pq.poll();
+//		System.out.println(pq.peek().r + " " + pq.peek().c + " " + pq.peek().dis);
+		person[num].r = st.r;
+		person[num].c = st.c;
+		person[num].exist = true;
+		map[st.r][st.c] = 0;
+		go[st.r][st.c] = true;
+//		System.out.println(num+"번 시작 " + st.r + " " + st.c + " " + st.dis);
 		
 	}
 	
@@ -166,7 +169,7 @@ public class Main {
 		while (!queue.isEmpty()) {
 			int[] cur = queue.poll();
 			
-			for (int i = 0; i < 4; i++) {
+			for (int i = 3; i >= 0; i--) {
 				int nr = cur[0] + dr[i];
 				int nc = cur[1] + dc[i];
 				
@@ -181,34 +184,7 @@ public class Main {
 				visited[nr][nc] = true;
 				queue.add(new int[] { nr, nc, cur[0], cur[1] });
 			}
-		}
-//		int minDis = Integer.MAX_VALUE;
-//		int minDir = 0;
-//		
-//		for (int i = 0; i < 4; i++) {
-//			int nr = person[num].r + dr[i];
-//			int nc = person[num].c + dc[i];
-//			
-//			if (nr < 1 || nc < 1 || nr > N || nc > N) continue;
-//			if (nr == store[num].r && nc == store[num].c) {
-//				int distance = Math.abs(nr - store[num].r) + Math.abs(nc - store[num].c);
-//				if (minDis > distance) {
-//					minDis = distance;
-//					minDir = i;
-//				}
-//			}
-//			if (go[nr][nc]) continue;
-//			
-//			int distance = Math.abs(nr - store[num].r) + Math.abs(nc - store[num].c);
-//			if (minDis > distance) {
-//				minDis = distance;
-//				minDir = i;
-//			}
-//		}
-//		
-//		person[num].r += dr[minDir];
-//		person[num].c += dc[minDir];
-		
+		}		
 	}
 
 }
