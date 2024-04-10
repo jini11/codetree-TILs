@@ -60,11 +60,15 @@ public class Main {
 //		}
 		
 		for (int i = 1; i <= K; i++) {
+//			System.out.println(i + " 라운드");
 			// 머리 사람을 따라 한칸 이동
 			for (int j = 0; j < M; j++) {
+//				System.out.println(j + "번 그룹 이동");
 				move(group[j]);
 			}
 			
+
+//			print(map);
 			// 공 던지기
 			ballStart(i);
 			throwBall();
@@ -95,7 +99,9 @@ public class Main {
 			if (map[nr][nc] > 0 && map[nr][nc] < 4) {
 				int g = check[nr][nc] - 1;
 				// 점수 get
-				sum += Math.pow(getK(g, nr, nc), 2);
+				int k = getK(g, nr, nc);
+//				System.out.println(k +"번째 "  + nr + " " + nc);
+				sum += Math.pow(k, 2);
 				
 				// 머리 & 꼬리 바꾸기
 				map[group[g].headR][group[g].headC] = 3;
@@ -122,8 +128,8 @@ public class Main {
 		
 		while (!queue.isEmpty()) {
 			int[] cur = queue.poll();
-			
 			if (cur[0] == r && cur[1] == c) {
+//				System.out.println("K 구함?!?");
 				return cur[2];
 			}
 			for (int i = 0; i < 4; i++) {
@@ -132,6 +138,10 @@ public class Main {
 				
 				if (nr < 0 || nc < 0 || nr >= N || nc >= N || v[nr][nc]) continue;
 				if (map[nr][nc] == 4 || map[nr][nc] == 0) continue;
+				if (Math.abs(map[nr][nc] - map[cur[0]][cur[1]]) > 1) {
+//					System.out.println("걸림 " + cur[2]);
+					continue;
+				}
 				
 				v[nr][nc] = true;
 				queue.add(new int[] {nr, nc, cur[2] + 1});
@@ -160,6 +170,9 @@ public class Main {
 	}
 	
 	private static void move(State g) {
+		int beforeR = g.headR;
+		int beforeC = g.headC;
+		
 		// 머리 사람 이동
 		map[g.headR][g.headC] = 2;
 		int idx = check[g.headR][g.headC];
@@ -168,9 +181,9 @@ public class Main {
 			int nr = g.headR + dr[i];
 			int nc = g.headC + dc[i];
 			
-			if (nr < 0 || nc < 0 || nr >= N || nc >= N) continue;
+			if (nr < 0 || nc < 0 || nr >= N || nc >= N || map[nr][nc] == 0) continue;
 			
-			if (map[nr][nc] == 4) {
+			if (map[nr][nc] != 2) {
 				map[nr][nc] = 1;
 				check[nr][nc] = idx;
 				g.headR = nr;
@@ -179,14 +192,20 @@ public class Main {
 			}
 		}
 		
+//		print(map);
+		
 		// 꼬리 사람 이동
-		map[g.tailR][g.tailC] = 4;
-		check[g.tailR][g.tailC] = 0;
+		if (map[g.tailR][g.tailC] != 1) {
+			map[g.tailR][g.tailC] = 4;
+		
+			check[g.tailR][g.tailC] = 0;
+		}
 		for (int i = 0; i < 4; i++) {
 			int nr = g.tailR + dr[i];
 			int nc = g.tailC + dc[i];
 			
-			if (nr < 0 || nc < 0 || nr >= N || nc >= N) continue;
+			if (nr < 0 || nc < 0 || nr >= N || nc >= N || map[nr][nc] == 0) continue;
+			if (nr == beforeR && nc == beforeC) continue;
 			
 			if (map[nr][nc] == 2 || map[nr][nc] == 1) {
 				map[nr][nc] = 3;
@@ -235,5 +254,5 @@ public class Main {
 				}
 			}
 		}
-	}
+	}	
 }
