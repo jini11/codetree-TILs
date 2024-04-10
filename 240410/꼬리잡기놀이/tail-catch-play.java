@@ -59,7 +59,7 @@ public class Main {
 //			System.out.println(group[i].headR + " " + group[i].headC + " | " + group[i].tailR + " " + group[i].tailC);
 //		}
 		
-		for (int i = 1; i <= K; i++) {
+		for (int i = 0; i < K; i++) {
 //			System.out.println(i + " 라운드");
 			// 머리 사람을 따라 한칸 이동
 			for (int j = 0; j < M; j++) {
@@ -93,10 +93,12 @@ public class Main {
 	private static void throwBall() {
 		int nr = startRow;
 		int nc = startCol;
+//		System.out.println("시작: " + nr + " " + nc);
 		while (true) {
 			if (nr < 0 || nc < 0 || nr >= N || nc >= N) break;
 			
 			if (map[nr][nc] > 0 && map[nr][nc] < 4) {
+//				System.out.println("잡힘!!!" + nr + " " + nc);
 				int g = check[nr][nc] - 1;
 				// 점수 get
 				int k = getK(g, nr, nc);
@@ -152,8 +154,7 @@ public class Main {
 	
 	private static void ballStart(int round) {
 		ballDir = (round / N) % 4;
-		int start = round % N - 1;
-		
+		int start = round % N;
 		if (ballDir == 0) {
 			startRow = start;
 			startCol = 0;
@@ -161,11 +162,11 @@ public class Main {
 			startRow = N - 1;
 			startCol = start;
 		} else if (ballDir == 2) {
-			startRow = start;
+			startRow = N - start - 1;
 			startCol = N - 1;
 		} else {
 			startRow = 0;
-			startCol = start;
+			startCol = N - start - 1;
 		}
 	}
 	
@@ -254,5 +255,30 @@ public class Main {
 				}
 			}
 		}
-	}	
+	}
+	
+	
+	
 }
+
+/*
+ * 
+7 3 973
+3 2 1 0 0 0 0
+4 0 4 0 2 1 4
+4 4 4 0 2 0 4
+0 0 0 0 3 4 4
+2 1 3 2 0 0 0
+2 0 0 2 0 0 0
+2 2 2 2 0 0 0
+
+7 2 14
+3 2 1 0 0 0 0
+4 0 4 0 2 1 4
+4 4 4 0 2 0 4
+0 0 0 0 3 0 4
+0 0 4 4 4 0 4
+0 0 4 0 0 0 4
+0 0 4 4 4 4 4
+
+ */
