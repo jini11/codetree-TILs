@@ -45,13 +45,12 @@ public class Main {
             int nr = r + dr[i];
             int nc = c + dc[i];
             if (isOut(nr, nc)) continue;
-            // visited[nr][nc] = true;
             dfs(nr, nc);
         }
     }
 
     private static boolean isOut(int nr, int nc) {
-        return nr < 0 || nc < 0 || nr >= SIZE + 1 || nc >= SIZE + 1;
+        return nr < 0 || nc < 0 || nr >= SIZE + 2 || nc >= SIZE + 2;
     }
 
 }
