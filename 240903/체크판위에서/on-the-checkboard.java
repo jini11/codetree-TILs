@@ -31,8 +31,8 @@ public class Main {
             return;
         }
 
-        for (int i = row; i < R; i++) {
-            for (int j = col; j < C; j++) {
+        for (int i = row + 1; i < R; i++) {
+            for (int j = col + 1; j < C; j++) {
                 if (map[row][col] != map[i][j]) {
                     dfs(i, j);
                 }
