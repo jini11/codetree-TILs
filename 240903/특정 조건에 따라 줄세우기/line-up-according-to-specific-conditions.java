@@ -2,70 +2,66 @@ import java.util.*;
 import java.io.*;
 
 /*
-0. N개 동안 나온 이름 boolean 처리 해놓기
-1. arraylist 사용해서 인접한 것끼리 묶기
-2. arraylist 각각 정렬해서 처음 이름꺼 기준으로 넣고 정렬
+- 가능한 모든 순열
+- 조건에 맞는지 체크
 */
 public class Main {
     static String[] name = {"Beatrice", "Belinda", "Bella", "Bessie", "Betsy", "Blue", "Buttercup", "Sue"};
-    static List<List<String>> list;
-    static HashMap<String, Integer> map;
+    static List<String[]> info, selected;
+    static String[] per;
+    static boolean[] visited;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
-        map = new HashMap<>();
-        list = new ArrayList<>();
+        info = new ArrayList<>();
+        selected = new ArrayList<>();
+        per = new String[8];
+        visited = new boolean[8];
 
-        int idx = 0;
         for (int i = 0; i < N; i++) {
             String line = br.readLine();
-            String[] friend = line.split(" must be milked beside ");
-            if (map.containsKey(friend[0])) {
-                int index = map.get(friend[0]);
-                list.get(index).remove(friend[0]);
-                list.get(index).add(friend[1]);
-                Collections.sort(list.get(index));
-                list.get(index).add(1, friend[0]);
-                map.put(friend[1], map.get(friend[0]));
-            } else if (map.containsKey(friend[1])) {
-                int index = map.get(friend[1]);
-                list.get(index).remove(friend[1]);
-                list.get(index).add(friend[0]);
-                Collections.sort(list.get(index));
-                list.get(index).add(1, friend[1]);
-                map.put(friend[0], map.get(friend[1]));
-            } else {
-                list.add(new ArrayList<>());
-                list.get(idx).add(friend[0]);
-                list.get(idx).add(friend[1]);
-                map.put(friend[0], idx);
-                map.put(friend[1], idx);
-                idx++;
-            }
+            String[] arr = line.split(" ");
+            info.add(new String[] {arr[0], arr[arr.length - 1]});
         }
 
-        boolean[] visited = new boolean[list.size()];
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).size() < 3) {
-                Collections.sort(list.get(i));
-            }
-        }
+        perm(0);
 
-        for (int i = 0; i < name.length; i++) {
-            if (map.containsKey(name[i])) {
-                int index = map.get(name[i]);
-                if (visited[index]) {
-                    continue;
-                } else if (list.get(index).get(0).equals(name[i])) {
-                    for (String n : list.get(index)) {
-                        System.out.println(n);
-                    }
-                    visited[index] = true;
+        for (int i = 0; i < selected.size(); i++) {
+            List<String> temp = new ArrayList<>(Arrays.asList(selected.get(i)));
+            if (isValid(temp)) {
+                for (String na : selected.get(i)) {
+                    System.out.println(na);
                 }
-            } else {
-                System.out.println(name[i]);
+                break;
             }
+        }
+    }
+
+    private static boolean isValid(List<String> name) {
+        for (String[] arr : info) {
+            int idx1 = name.indexOf(arr[0]);
+            int idx2 = name.indexOf(arr[1]);
+            if (Math.abs(idx1 - idx2) != 1) {
+                return false;
+            }
+        }   
+        return true;
+    }
+    
+    private static void perm(int cnt) {
+        if (cnt == 8) {
+            // System.out.println(Arrays.toString(per));
+            selected.add(per.clone());
+            return;
+        }
+
+        for (int i = 0; i < 8; i++) {
+            if (visited[i]) continue;
+            visited[i] = true;
+            per[cnt] = name[i];
+            perm(cnt + 1);
+            visited[i] = false;
         }
     }
 }
