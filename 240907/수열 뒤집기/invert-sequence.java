@@ -11,7 +11,7 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         N = Integer.parseInt(st.nextToken());
-        K = Integer.parseInt(st.nextToken()) % 4;
+        K = Integer.parseInt(st.nextToken());
         arr = new int[N + 1];
         copy = new int[N + 1];
 
@@ -34,7 +34,7 @@ public class Main {
             swap(B1, B2);
             if (checkSame(copy, arr)) {
                 isCycle = true;
-                num = K % i;
+                num = K % (i + 1);
                 break;
             }
         }
