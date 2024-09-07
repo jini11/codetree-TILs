@@ -34,7 +34,7 @@ public class Main {
             swap(B1, B2);
             if (checkSame(copy, arr)) {
                 isCycle = true;
-                num = K % (i + 1);
+                num = K % i;
                 break;
             }
         }
