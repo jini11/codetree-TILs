@@ -131,10 +131,10 @@ public class Main {
     }
 
     private static boolean isEmpty(int r, int c) {
+        if (r <= 0) return true;
         if (r < -1 || c < 0 || r > R || c > C) {
             return false;
         }
-        if (r == -1) return true;
         return map[r][c] == 0;
     }
 
