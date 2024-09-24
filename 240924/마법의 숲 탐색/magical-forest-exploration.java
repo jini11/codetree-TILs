@@ -42,6 +42,8 @@ public class Main {
                 continue;
             }
 
+            // print();
+
             // 정령은 가장 밑으로 움직이기
             moveElf(i);
         }
@@ -75,6 +77,8 @@ public class Main {
                 }
             }
         }
+        // System.out.println(idx+ "번 점수: " + max);
+        // System.out.println();
         res += max;
     }
 
@@ -83,18 +87,22 @@ public class Main {
         int nc = elfs[idx].c;
         int nd = elfs[idx].d;
 
+        // System.out.println(idx+"번");
         while (nr <= R - 2) {
             if (isEmpty(nr + 1, nc + 1) && isEmpty(nr + 1, nc - 1) && isEmpty(nr + 2, nc)) { // 남쪽으로 내려갈 수 있으면
+                // System.out.println("아래");
                 nr += 1;
                 continue;
             }
             if (nc > 2 && isEmpty(nr, nc - 2) && isEmpty(nr - 1, nc - 1) && isEmpty(nr + 1, nc - 1) && isEmpty(nr + 1, nc - 2) && isEmpty(nr + 2, nc - 1)) { // 서쪽
+                // System.out.println("왼");
                 nr += 1;
                 nc -= 1;
                 nd = (nd + 3) % 4;
                 continue;
             }
             if (nc < C - 1 && isEmpty(nr, nc + 2) && isEmpty(nr - 1, nc + 1) && isEmpty(nr + 1, nc + 1) && isEmpty(nr + 1, nc + 2) && isEmpty(nr + 2, nc + 1)) { // 동쪽
+                // System.out.println("오");
                 nr += 1;
                 nc += 1;
                 nd = (nd + 1) % 4;
@@ -123,7 +131,10 @@ public class Main {
     }
 
     private static boolean isEmpty(int r, int c) {
-        if (r < 0 || c < 0 || r > R || c > C) return false;
+        if (r < -1 || c < 0 || r > R || c > C) {
+            return false;
+        }
+        if (r == -1) return true;
         return map[r][c] == 0;
     }
 
