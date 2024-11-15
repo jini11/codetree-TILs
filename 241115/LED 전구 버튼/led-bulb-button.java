@@ -5,7 +5,6 @@ public class Main {
 
     static int N;
     static long B;
-    // static List<Integer> lights;
     static int[] lights;
 
     public static void main(String[] args) throws IOException {
@@ -14,11 +13,17 @@ public class Main {
         N = Integer.parseInt(st.nextToken());
         B = Long.parseLong(st.nextToken());
 
-        // lights = new ArrayList<>();
         lights = new int[N];
         for (int i = 0; i < N; i++) {
             lights[i] = Integer.parseInt(br.readLine());
-            // lights.add(Integer.parseInt(br.readLine()));
+        }
+
+        if (B < Math.pow(2, N - 1)) {
+            B = B;
+        } else if (B % Math.pow(2, N - 1) == 0) {
+            B = (int) (Math.pow(2, N - 1)) + 1;
+        } else {
+            B = B % (int) Math.pow(2, N - 1);
         }
 
         while (B-- > 0) {
