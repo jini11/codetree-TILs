@@ -3,7 +3,8 @@ import java.io.*;
 
 public class Main {
 
-    static int N, res;
+    static int N;
+    static long res;
     static int[] cost, company;
     static boolean[] visited;
 
