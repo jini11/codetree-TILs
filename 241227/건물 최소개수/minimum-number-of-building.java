@@ -15,22 +15,28 @@ public class Main {
             st = new StringTokenizer(br.readLine());
             st.nextToken();
             int height = Integer.parseInt(st.nextToken());
-            if (height == 0) {
-                set = new HashSet<>();
-                res += stack.size();
-                stack = new Stack<>();
+
+            while (!stack.isEmpty() && stack.peek() > height) {
+                if (stack.peek() != 0) {
+                    res++;
+                }
+                stack.pop();
+            }
+            
+            if (!stack.isEmpty() && stack.peek() == height) {
                 continue;
             }
-            if (!set.contains(height)) {
-                if (stack.isEmpty() || stack.peek() <= height) {
-                    stack.push(height);
-                } else if (stack.peek() > height) {
-                    res += stack.size();
-                    stack = new Stack<>();
-                }
-            }
+
+            stack.push(height);
         }
 
-        System.out.println(res + stack.size());
+        while (!stack.isEmpty()) {
+            if (stack.peek() != 0) {
+                res++;
+            }
+            stack.pop();
+        }
+
+        System.out.println(res);
     }
 }
